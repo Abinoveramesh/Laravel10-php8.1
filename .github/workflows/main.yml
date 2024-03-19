@@ -21,6 +21,6 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /var/www/html/Laravel10--php8.1
+            cd /var/www/html/Laravel10-php8.1
             git pull origin main
             
