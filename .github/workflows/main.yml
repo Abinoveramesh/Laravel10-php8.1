@@ -1,0 +1,27 @@
+name: CICD 
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy 
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2             
+              
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/html/Laravel10-php8.1
+            git pull origin main
+            
+        
