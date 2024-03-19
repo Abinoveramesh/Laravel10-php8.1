@@ -1,22 +1,33 @@
-version: '3.7'
+version: '3'
 
 services:
-  php:
+  apache:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
       - mysql
+      - mongodb
+    networks:
+      - app-network
 
   mysql:
     image: mysql:latest
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example_password
+      MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: laravel
-      MYSQL_USER: example_user
-      MYSQL_PASSWORD: example_password
-    ports:
-      - "3306:3306"
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
