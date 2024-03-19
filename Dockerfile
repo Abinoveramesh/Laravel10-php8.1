@@ -1,17 +1,25 @@
-# Use the official PHP 8.1 image as base
-FROM php:8.1
+# Use the official PHP image as base
+FROM php:8.0-apache
 
-# Install necessary PHP extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+# Install dependencies and PHP extensions
+RUN apt-get update && \
+    apt-get install -y \
+    libzip-dev \
+    zip \
+    unzip \
+    && docker-php-ext-install pdo_mysql mysqli zip
 
-# Set working directory in the container
+# Enable Apache modules
+RUN a2enmod rewrite
+
+# Copy Apache virtual host configuration
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy the application code into the container
-COPY . /var/www/html
-
-# Expose port 80 to the outside world
+# Expose ports
 EXPOSE 80
 
-# Command to run the application
-CMD ["php", "-S", "0.0.0.0:80"]
+# Start Apache server
+CMD ["apache2-foreground"]
