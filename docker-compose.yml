@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "8080:80"  # Map port 8080 of the host to port 80 of the container
     depends_on:
       - mysql
       - mongodb
@@ -19,7 +19,7 @@ services:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: laravel
       MYSQL_USER: root
-      MYSQL_PASSWORD:
+      MYSQL_PASSWORD: 
     networks:
       - app-network
 
