@@ -19,7 +19,7 @@ COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 WORKDIR /var/www/html
 
 # Expose ports
-EXPOSE 80
+EXPOSE 8080
 
 # Start Apache server
 CMD ["apache2-foreground"]
